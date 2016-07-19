@@ -74,10 +74,12 @@
 //    Test1ViewController *t = [[Test1ViewController alloc] init];
 //    [self.navigationController pushViewController:t animated:YES];
     [ZFQHUD setHUDType:ZFQHUDBlur];
+    [ZFQHUD setTapClearDismiss:YES];
     ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];// [[ZFQHUDConfig alloc] init];
     config.alertViewTintColor = [UIColor orangeColor];
     config.alertViewBcgColor = [UIColor grayColor];
-    [[ZFQHUD sharedView] showWithMsg:@"ssss" duration:0 completionBlk:^{
+    config.alertViewMinWidth = 100;
+    [[ZFQHUD sharedView] showWithMsg:@"ssss" duration:2 completionBlk:^{
         NSLog(@"完成");
     }];
 }

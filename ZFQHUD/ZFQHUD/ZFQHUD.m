@@ -109,6 +109,8 @@ static ZFQHUD *zfqHUD = nil;
     if (self) {
         self.backgroundColor = [UIColor lightGrayColor];
         _tapClearDismiss = NO;
+        _showAnimationBlk = [self alertShowAnimation];
+        _hideAnimationBlk = [self alertHideAnimation];
     }
     return self;
 }
@@ -141,7 +143,7 @@ static ZFQHUD *zfqHUD = nil;
     UITouch *touch = [touches anyObject];
     if (touch.view == self ) {
         if (self.tapClearDismiss) {
-            [[self class] dissmissWithAnimation:YES];
+            [self dissmissWithAnimation:YES];
         }
     }
 }
@@ -188,7 +190,7 @@ static ZFQHUD *zfqHUD = nil;
     if (!hudView.superview) {
         [hud addSubview:hudView];
         CGFloat height = 0;
-        CGFloat width = config.waitingViewWidth + config.edgeInsets.left + config.edgeInsets.right;
+        CGFloat width = config.alertViewMinWidth;
         hudView.bounds = CGRectMake(0, 0, width, width);
         //分三种情况
         //1.只有文字
@@ -339,6 +341,9 @@ static ZFQHUD *zfqHUD = nil;
 
 - (void)dissmissWithAnimation:(BOOL)animation
 {
+    if (!self.superview) {
+        return;
+    }
     if (self.hideAnimationBlk) {
         self.hideAnimationBlk(self);
     } else {
@@ -352,10 +357,10 @@ static ZFQHUD *zfqHUD = nil;
     __weak typeof (self) weakSelf = self;
     ZFQHUDPopupBlock blk = ^(ZFQHUD *hud) {
         
-        weakSelf.layer.transform = CATransform3DMakeScale(0.2, 0.2, 1);
+        weakSelf.hudView.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
         weakSelf.alpha = 0.1;
-        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weakSelf.layer.transform = CATransform3DMakeScale(1, 1, 1);
+        [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.75 initialSpringVelocity:0.6 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            weakSelf.hudView.layer.transform = CATransform3DMakeScale(1, 1, 1);
             weakSelf.alpha = 1;
         } completion:^(BOOL finished) {
             if (finished) {
@@ -372,11 +377,14 @@ static ZFQHUD *zfqHUD = nil;
 {
     __weak typeof (self) weakSelf = self;
     ZFQHUDPopupBlock blk = ^(ZFQHUD *hud) {
-        
-        [UIView animateWithDuration:0.3 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            weakSelf.layer.transform = CATransform3DMakeScale(0.1,0.1,1);
+        weakSelf.alpha = 1;
+        [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            weakSelf.hudView.layer.transform = CATransform3DMakeScale(0.01f,0.01f,1);
+            weakSelf.alpha = 0;
         } completion:^(BOOL finished) {
             if (finished) {
+                [weakSelf removeFromSuperview];
+                
                 if (weakSelf.hideAnimationCompleteBlk) {
                     weakSelf.hideAnimationCompleteBlk(weakSelf);
                 }
