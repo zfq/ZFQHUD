@@ -1,0 +1,12 @@
+PODS:
+  - RXCollections (1.0)
+
+DEPENDENCIES:
+  - RXCollections
+
+SPEC CHECKSUMS:
+  RXCollections: ef46a1c3b1f25711117ece94c48d9beae9f143a6
+
+PODFILE CHECKSUM: 40f9649ca6ab7415cf42bf6c7f409ea19a7261fc
+
+COCOAPODS: 1.0.1
