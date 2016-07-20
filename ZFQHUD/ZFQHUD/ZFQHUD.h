@@ -69,7 +69,8 @@ typedef void(^ZFQHUDPopupBlock)(ZFQHUD * _Nonnull hud);
 
 typedef NS_ENUM(NSInteger,ZFQHUDType){
     ZFQHUDClear,
-    ZFQHUDBlur      //模糊背景
+    ZFQHUDBlur,         //模糊背景
+    ZFQHUDAlertViewBlur //仅仅提示框背景模糊
 };
 
 @interface ZFQHUD : UIView

@@ -134,7 +134,9 @@ static ZFQHUD *zfqHUD = nil;
         case ZFQHUDBlur:
             
             break;
-            
+        case ZFQHUDAlertViewBlur:
+            [self sharedView].backgroundColor = [UIColor clearColor];
+            break;
         default:
             break;
     }
@@ -162,6 +164,22 @@ static ZFQHUD *zfqHUD = nil;
     UIColor *tintColor = [UIColor colorWithWhite:1 alpha:0.75f];
     CGFloat saturationFactor = 1.8f; //饱和度
     return [image re_applyBlurWithRadius:radius tintColor:tintColor saturationDeltaFactor:saturationFactor maskImage:nil];
+}
+
+- (UIImage *)applyBlurToImage:(UIImage *)image area:(CGRect)maskArea
+{
+    NSLog(@"%@",NSStringFromCGRect(maskArea));
+    CGFloat radius = 5;
+    UIColor *tintColor = [UIColor colorWithWhite:1 alpha:0.5f];
+    CGFloat saturationFactor = 1.8f; //饱和度
+    //从image上的maskArea区域上裁剪出图片，然后再近些模糊处理
+    UIGraphicsBeginImageContextWithOptions(maskArea.size,NO,[UIScreen mainScreen].scale);
+    //注意坐标是反向的
+    [image drawAtPoint:CGPointMake(-maskArea.origin.x, -maskArea.origin.y)];
+    UIImage *smallImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+//    return smallImg;
+    return [smallImg re_applyBlurWithRadius:radius tintColor:tintColor saturationDeltaFactor:saturationFactor maskImage:nil];
 }
 
 - (void)showWithMsg:(NSString *)alertMsg duration:(NSTimeInterval)interval completionBlk:(void (^)(void))blk
@@ -195,31 +213,38 @@ static ZFQHUD *zfqHUD = nil;
     UIView *hudView = [hud hudView];
     hudView.layer.cornerRadius = config.alertViewCornerRadius;
     hudView.backgroundColor = config.alertViewBcgColor;
+
     if (!hudView.superview) {
         [hud addSubview:hudView];
-        CGFloat height = 0;
-        CGFloat width = config.alertViewMinWidth;
-        hudView.bounds = CGRectMake(0, 0, width, width);
-        //分三种情况
-        //1.只有文字
-        //2.只有等待视图和文字(如果文字的长度为0，相当于只有等待视图)
-        //3.只有自定义图片和文字(如果文字的长度为0，相当于只有等待视图)
-        //添加约束
-        
-        UIImage *img = config.alertImg;
-        if (!img) {
-            [hud showWaitingLayerWithMsg:alertMsg onView:hudView width:&width height:&height];
+    }
+    CGFloat height = 0;
+    CGFloat width = config.alertViewMinWidth;
+    hudView.bounds = CGRectMake(0, 0, width, width);
+    //分三种情况
+    //1.只有文字
+    //2.只有等待视图和文字(如果文字的长度为0，相当于只有等待视图)
+    //3.只有自定义图片和文字(如果文字的长度为0，相当于只有等待视图)
+    //添加约束
+    
+    UIImage *img = config.alertImg;
+    if (!img) {
+        [hud showWaitingLayerWithMsg:alertMsg onView:hudView width:&width height:&height];
+    } else {
+        if (alertMsg.length == 0) {
+            //只显示自定义视图
         } else {
-            if (alertMsg.length == 0) {
-                //只显示自定义视图
-            } else {
-                //显示自定义视图和文字
-            }
+            //显示自定义视图和文字
         }
+    }
         
-        //设置hudView的frame
-        hudView.bounds = CGRectMake(0, 0, width, height);
-        hudView.center = hud.center;
+    //设置hudView的frame
+    hudView.frame = CGRectMake(hud.center.x-width/2, hud.center.y-height/2, width, height);
+    
+    if (hud.hudType == ZFQHUDAlertViewBlur) {
+        hudView.layer.masksToBounds = YES;
+        UIImage *simg = [[self class] snapShotImg];
+        UIImage *img = [hud applyBlurToImage:simg area:hudView.frame];
+        hudView.layer.contents = (__bridge id)img.CGImage;
     }
     
     //添加显示动画
@@ -409,6 +434,7 @@ static ZFQHUD *zfqHUD = nil;
         } completion:^(BOOL finished) {
             if (finished) {
                 [weakSelf removeFromSuperview];
+                weakSelf.hudView.layer.transform = CATransform3DIdentity;
                 weakSelf.isVisible = NO;
                 weakSelf.isHideAnimating = NO;
                 if (weakSelf.hideAnimationCompleteBlk) {

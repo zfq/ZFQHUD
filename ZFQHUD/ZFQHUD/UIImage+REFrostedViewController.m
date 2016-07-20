@@ -224,6 +224,9 @@
     UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
+    //恢复坐标
+    CGContextScaleCTM(outputContext, 1.0, 1.0);
+    CGContextTranslateCTM(outputContext, 0, self.size.height);
     return outputImage;
 }
 
