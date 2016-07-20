@@ -111,7 +111,7 @@ static ZFQHUD *zfqHUD = nil;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor lightGrayColor];
+        self.backgroundColor = [UIColor clearColor];
         _isVisible = NO;
         _tapClearDismiss = NO;
         _isShowAnimating = NO;
@@ -128,7 +128,7 @@ static ZFQHUD *zfqHUD = nil;
     
     switch (hudType) {
         case ZFQHUDClear: {
-            [self sharedView].backgroundColor = [UIColor grayColor];
+            [self sharedView].backgroundColor = [UIColor clearColor];
             break;
         }
         case ZFQHUDBlur:
