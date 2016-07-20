@@ -13,7 +13,7 @@
 @interface ZFQHUDConfig : NSObject
 
 /**
- *  边距的填充,默认是{8,8,8,8}
+ *  边距的填充,默认是{20,8,8,8}
  */
 @property (nonatomic,assign) UIEdgeInsets edgeInsets;
 

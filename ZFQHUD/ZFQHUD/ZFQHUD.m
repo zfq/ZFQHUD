@@ -38,7 +38,7 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 {
     self = [super init];
     if (self) {
-        _edgeInsets = UIEdgeInsetsMake(20, 8, 8, 8);
+        _edgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
         _waitingViewWidth = 40;
         _alertViewMinWidth = zfqHUDConfig.waitingViewWidth + zfqHUDConfig.edgeInsets.left + zfqHUDConfig.edgeInsets.right;
         _alertViewCornerRadius = 4;
@@ -168,17 +168,15 @@ static ZFQHUD *zfqHUD = nil;
 
 - (UIImage *)applyBlurToImage:(UIImage *)image area:(CGRect)maskArea
 {
-    NSLog(@"%@",NSStringFromCGRect(maskArea));
     CGFloat radius = 5;
     UIColor *tintColor = [UIColor colorWithWhite:1 alpha:0.5f];
     CGFloat saturationFactor = 1.8f; //饱和度
-    //从image上的maskArea区域上裁剪出图片，然后再近些模糊处理
+    //从image上的maskArea区域上裁剪出图片，然后再进行模糊处理
     UIGraphicsBeginImageContextWithOptions(maskArea.size,NO,[UIScreen mainScreen].scale);
     //注意坐标是反向的
     [image drawAtPoint:CGPointMake(-maskArea.origin.x, -maskArea.origin.y)];
     UIImage *smallImg = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-//    return smallImg;
     return [smallImg re_applyBlurWithRadius:radius tintColor:tintColor saturationDeltaFactor:saturationFactor maskImage:nil];
 }
 
@@ -228,7 +226,7 @@ static ZFQHUD *zfqHUD = nil;
     
     UIImage *img = config.alertImg;
     if (!img) {
-        [hud showWaitingLayerWithMsg:alertMsg onView:hudView width:&width height:&height];
+        [hud showWithMsg:alertMsg hideWaiting:YES onView:hudView width:&width height:&height];
     } else {
         if (alertMsg.length == 0) {
             //只显示自定义视图
@@ -256,7 +254,7 @@ static ZFQHUD *zfqHUD = nil;
     //dismiss弹出视图
     if (interval > 0) {
         __weak typeof(self) weakSelf = self;
-        dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+        dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC);
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         self.timeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, mainQueue);
         dispatch_source_set_timer(_timeSource, time, (int64_t)(1 * NSEC_PER_SEC), 0);
@@ -271,7 +269,7 @@ static ZFQHUD *zfqHUD = nil;
     }
 }
 
-- (void)showWaitingLayerWithMsg:(NSString *)msg onView:(UIView *)view width:(CGFloat *)width height:(CGFloat *)height
+- (void)showWithMsg:(NSString *)msg hideWaiting:(BOOL)hideWaiting onView:(UIView *)view width:(CGFloat *)width height:(CGFloat *)height
 {
     //1.添加等待视图
     CGFloat padding = 8;
@@ -279,12 +277,14 @@ static ZFQHUD *zfqHUD = nil;
     ZFQHUDConfig *hudConfig = [ZFQHUDConfig globalConfig];
     UILabel *msgLabel = self.msgLabel;
     
-    CAShapeLayer *layer = self.waitingLayer;
-    CGSize layerSize = layer.bounds.size;
-    if (!layer.superlayer) {
-        layer.position = CGPointMake(viewWidth/2, hudConfig.edgeInsets.top + layerSize.height/2);
-        [view.layer addSublayer:layer];
-        [layer addAnimation:self.animations forKey:@"aaa"];
+    CAShapeLayer *layer = hideWaiting ? nil : self.waitingLayer;
+    if (layer) {
+        CGSize layerSize = layer.bounds.size;
+        if (!layer.superlayer) {
+            layer.position = CGPointMake(viewWidth/2, hudConfig.edgeInsets.top + layerSize.height/2);
+            [view.layer addSublayer:layer];
+            [layer addAnimation:self.animations forKey:@"aaa"];
+        }
     }
     
     //2.添加msgLabel
@@ -303,14 +303,35 @@ static ZFQHUD *zfqHUD = nil;
         CGFloat x = 0;
         CGSize actualSize = [label sizeThatFits:CGSizeMake(_preferMaxWidth, CGFLOAT_MAX)];
         //文字宽度>viewWidth
+        if (layer) {
+            if (actualSize.width > layer.bounds.size.width) {
+                viewWidth = actualSize.width + hudConfig.edgeInsets.left + hudConfig.edgeInsets.right;
+                x = hudConfig.edgeInsets.left;
+            } else {
+                x = (viewWidth - actualSize.width)/2;
+            }
+        } else {
+            if (actualSize.width > viewWidth) {
+                viewWidth = actualSize.width + hudConfig.edgeInsets.left + hudConfig.edgeInsets.right;
+                x = hudConfig.edgeInsets.left;
+            } else {
+                x = (viewWidth - actualSize.width)/2;
+            }
+        }
+        /*
         if (actualSize.width > layerSize.width) {
             viewWidth = actualSize.width + hudConfig.edgeInsets.left + hudConfig.edgeInsets.right;
             x = hudConfig.edgeInsets.left;
         } else {
             x = (viewWidth - actualSize.width)/2;
-        }
+        }*/
         
-        CGFloat y = layer.position.y + layerSize.height/2 + padding;
+        CGFloat y = 0;
+        if (layer) {
+            y = layer.position.y + layer.bounds.size.height/2 + padding;
+        } else {
+            y = hudConfig.edgeInsets.top;
+        }
         label.frame = CGRectMake(x, y, actualSize.width, actualSize.height);
     }
     
@@ -351,7 +372,12 @@ static ZFQHUD *zfqHUD = nil;
                 *height = CGRectGetMaxY(msgLabel.frame) + padding;
             }
         } else {
-            *height = layer.position.y + layerSize.height/2 + padding;
+            if (layer) {
+                *height = layer.position.y + layer.bounds.size.height/2 + padding;
+            } else {
+                *height = hudConfig.edgeInsets.top + hudConfig.edgeInsets.bottom;
+            }
+            
         }
     }
 }
