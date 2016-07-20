@@ -74,6 +74,7 @@ typedef NS_ENUM(NSInteger,ZFQHUDType){
 
 @interface ZFQHUD : UIView
 
+@property (nonatomic,assign,readonly) BOOL isVisible;    //是否可见
 @property (nonatomic,assign) ZFQHUDType hudType;
 
 @property (nonatomic,copy,nullable) ZFQHUDPopupBlock showAnimationBlk;
@@ -85,7 +86,7 @@ typedef NS_ENUM(NSInteger,ZFQHUDType){
 + (nonnull ZFQHUD *)sharedView;
 
 + (void)setHUDType:(ZFQHUDType)hudType;
-+ (void)setTapClearDismiss:(BOOL)dismiss;   //点击空白部分消失
++ (void)setTapClearDismiss:(BOOL)dismiss;   //点击空白部分消失,这个会强制隐藏掉hud
 
 - (void)dissmiss;
 

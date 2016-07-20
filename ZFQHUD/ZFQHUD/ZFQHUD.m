@@ -65,6 +65,10 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 @property (nonatomic, strong) CAShapeLayer *waitingLayer;
 
 @property (nonatomic,assign) BOOL tapClearDismiss;
+@property (nonatomic,assign) BOOL isShowAnimating;      //是否正在动画
+@property (nonatomic,assign) BOOL isHideAnimating;
+@property (nonatomic,assign,readwrite) BOOL isVisible;    //是否可见
+@property (nonatomic,strong) dispatch_source_t timeSource;
 
 @end
 
@@ -108,7 +112,10 @@ static ZFQHUD *zfqHUD = nil;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor lightGrayColor];
+        _isVisible = NO;
         _tapClearDismiss = NO;
+        _isShowAnimating = NO;
+        _isHideAnimating = NO;
         _showAnimationBlk = [self alertShowAnimation];
         _hideAnimationBlk = [self alertHideAnimation];
     }
@@ -143,6 +150,7 @@ static ZFQHUD *zfqHUD = nil;
     UITouch *touch = [touches anyObject];
     if (touch.view == self ) {
         if (self.tapClearDismiss) {
+            dispatch_source_cancel(self.timeSource);
             [self dissmissWithAnimation:YES];
         }
     }
@@ -215,20 +223,27 @@ static ZFQHUD *zfqHUD = nil;
     }
     
     //添加显示动画
-    if (self.showAnimationBlk) {
+    _isVisible = YES;
+    if (self.showAnimationBlk && self.isShowAnimating == NO) {
         self.showAnimationBlk(self);
     }
     
     //dismiss弹出视图
     if (interval > 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self dissmissWithAnimation:YES];
+        __weak typeof(self) weakSelf = self;
+        dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+        dispatch_queue_t mainQueue = dispatch_get_main_queue();
+        self.timeSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, mainQueue);
+        dispatch_source_set_timer(_timeSource, time, (int64_t)(1 * NSEC_PER_SEC), 0);
+        dispatch_source_set_event_handler(_timeSource, ^{
+            dispatch_source_cancel(weakSelf.timeSource);
+            [weakSelf dissmissWithAnimation:YES];
             if (blk) {
                 blk();
             }
         });
+        dispatch_resume(_timeSource);
     }
-    
 }
 
 - (void)showWaitingLayerWithMsg:(NSString *)msg onView:(UIView *)view width:(CGFloat *)width height:(CGFloat *)height
@@ -344,10 +359,18 @@ static ZFQHUD *zfqHUD = nil;
     if (!self.superview) {
         return;
     }
-    if (self.hideAnimationBlk) {
+
+    if (self.isShowAnimating) {
+        [self.layer removeAllAnimations];
+        [self.hudView.layer removeAllAnimations];
+        self.isShowAnimating = NO;
+    }
+    if (self.hideAnimationBlk && self.isHideAnimating == NO) {
         self.hideAnimationBlk(self);
     } else {
         [self removeFromSuperview];
+        self.isHideAnimating = NO;
+        self.isVisible = NO;
     }
 }
 
@@ -356,7 +379,7 @@ static ZFQHUD *zfqHUD = nil;
 {
     __weak typeof (self) weakSelf = self;
     ZFQHUDPopupBlock blk = ^(ZFQHUD *hud) {
-        
+        weakSelf.isShowAnimating = YES;
         weakSelf.hudView.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
         weakSelf.alpha = 0.1;
         [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:0.75 initialSpringVelocity:0.6 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -364,6 +387,7 @@ static ZFQHUD *zfqHUD = nil;
             weakSelf.alpha = 1;
         } completion:^(BOOL finished) {
             if (finished) {
+                weakSelf.isShowAnimating = NO;
                 if (weakSelf.showAnimationCompleteBlk) {
                     weakSelf.showAnimationCompleteBlk(weakSelf);
                 }
@@ -377,6 +401,7 @@ static ZFQHUD *zfqHUD = nil;
 {
     __weak typeof (self) weakSelf = self;
     ZFQHUDPopupBlock blk = ^(ZFQHUD *hud) {
+        weakSelf.isHideAnimating = YES;
         weakSelf.alpha = 1;
         [UIView animateWithDuration:0.6 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseOut animations:^{
             weakSelf.hudView.layer.transform = CATransform3DMakeScale(0.01f,0.01f,1);
@@ -384,7 +409,8 @@ static ZFQHUD *zfqHUD = nil;
         } completion:^(BOOL finished) {
             if (finished) {
                 [weakSelf removeFromSuperview];
-                
+                weakSelf.isVisible = NO;
+                weakSelf.isHideAnimating = NO;
                 if (weakSelf.hideAnimationCompleteBlk) {
                     weakSelf.hideAnimationCompleteBlk(weakSelf);
                 }
