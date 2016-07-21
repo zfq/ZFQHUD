@@ -564,7 +564,6 @@ static ZFQHUD *zfqHUD = nil;
         _msgLabel = [[UILabel alloc] init];
         _msgLabel.font = [UIFont systemFontOfSize:18];
         _msgLabel.numberOfLines = 0;
-        _msgLabel.backgroundColor = [UIColor redColor];
     }
     return _msgLabel;
 }
