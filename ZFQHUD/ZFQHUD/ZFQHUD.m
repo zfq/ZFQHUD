@@ -38,12 +38,13 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 {
     self = [super init];
     if (self) {
-        _edgeInsets = UIEdgeInsetsMake(8, 8, 0, 8);
+        _edgeInsets = UIEdgeInsetsMake(20, 20, 20, 20);
         _waitingViewWidth = 40;
         _alertViewMinWidth = zfqHUDConfig.waitingViewWidth + zfqHUDConfig.edgeInsets.left + zfqHUDConfig.edgeInsets.right;
         _alertViewCornerRadius = 4;
         _alertViewBcgColor = [UIColor whiteColor];
         _alertViewTintColor = [UIColor blueColor];
+        
     }
     return self;
 }
@@ -170,8 +171,8 @@ static ZFQHUD *zfqHUD = nil;
 
 - (UIImage *)applyBlurToImage:(UIImage *)image area:(CGRect)maskArea
 {
-    CGFloat radius = 5;
-    UIColor *tintColor = [UIColor colorWithWhite:1 alpha:0.5f];
+    CGFloat radius = 10;
+    UIColor *tintColor = [UIColor colorWithWhite:1 alpha:0.65f];
     CGFloat saturationFactor = 1.8f; //饱和度
     //从image上的maskArea区域上裁剪出图片，然后再进行模糊处理
     UIGraphicsBeginImageContextWithOptions(maskArea.size,NO,[UIScreen mainScreen].scale);
@@ -211,6 +212,8 @@ static ZFQHUD *zfqHUD = nil;
     //添加hudView
     UIView *hudView = [self hudView];
     hudView.layer.cornerRadius = config.alertViewCornerRadius;
+    hudView.layer.borderColor = config.alertViewBorderColor.CGColor;
+    hudView.layer.borderWidth = config.alertViewBorderWidth;
     hudView.backgroundColor = config.alertViewBcgColor;
 
     if (!hudView.superview) {
@@ -278,7 +281,7 @@ static ZFQHUD *zfqHUD = nil;
 - (void)showWithMsg:(NSString *)msg hideWaiting:(BOOL)hideWaiting onView:(UIView *)view width:(CGFloat *)width height:(CGFloat *)height
 {
     //1.添加等待视图
-    CGFloat padding = 8;
+    CGFloat padding = 8;    //等待视图与msgLabel的垂直间距
     CGFloat viewWidth = view.bounds.size.width;
     ZFQHUDConfig *hudConfig = [ZFQHUDConfig globalConfig];
     UILabel *msgLabel = self.msgLabel;
@@ -311,7 +314,7 @@ static ZFQHUD *zfqHUD = nil;
         
         CGFloat x = 0;
         CGSize actualSize = [label sizeThatFits:CGSizeMake(_preferMaxWidth, CGFLOAT_MAX)];
-        //文字宽度>viewWidth
+
         if (layer) {
             if (actualSize.width > layer.bounds.size.width) {
                 viewWidth = actualSize.width + hudConfig.edgeInsets.left + hudConfig.edgeInsets.right;
@@ -330,7 +333,7 @@ static ZFQHUD *zfqHUD = nil;
         
         CGFloat y = 0;
         if (layer) {
-            y = layer.position.y + layer.bounds.size.height/2 + hudConfig.edgeInsets.bottom;
+            y = layer.position.y + layer.bounds.size.height/2 + padding;
         } else {
             y = hudConfig.edgeInsets.top;
         }
@@ -345,10 +348,10 @@ static ZFQHUD *zfqHUD = nil;
         viewWidth = hudConfig.alertViewMinWidth;
     }
     
-    //调整等等视图的位置
+    //调整等待视图的位置
     layer.position = CGPointMake(viewWidth/2, layer.position.y);
     
-    //3.将hudView的实际宽高传出去
+    //将hudView的实际宽高传出去
     if (width != NULL) {
         *width = viewWidth;
     }
@@ -366,7 +369,7 @@ static ZFQHUD *zfqHUD = nil;
                     [scrollView addSubview:msgLabel];
                 }
                 scrollView.contentSize = msgLabel.bounds.size;
-                scrollView.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, *height - hudConfig.edgeInsets.bottom - hudConfig.edgeInsets.top - layer.bounds.size.height-hudConfig.edgeInsets.bottom);
+                scrollView.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, *height - hudConfig.edgeInsets.top - layer.bounds.size.height - hudConfig.edgeInsets.bottom);
                 msgLabel.frame = CGRectMake(0, 0, msgLabel.bounds.size.width, msgLabel.bounds.size.height);
                 
                 //将scrollView添加view上
@@ -561,6 +564,7 @@ static ZFQHUD *zfqHUD = nil;
         _msgLabel = [[UILabel alloc] init];
         _msgLabel.font = [UIFont systemFontOfSize:18];
         _msgLabel.numberOfLines = 0;
+        _msgLabel.backgroundColor = [UIColor redColor];
     }
     return _msgLabel;
 }
