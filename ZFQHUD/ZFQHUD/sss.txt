@@ -5,3 +5,52 @@ typeof(f1);
 
 var o2 = {};
 typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);
+function f1(){
+constole.log('This is function f1!');
+}
+typeof(f1);
+
+var o2 = {};
+typeof(o2);

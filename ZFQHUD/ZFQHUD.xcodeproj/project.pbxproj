@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F2DB3F61D3CD8FC0059FE40 /* UIImage+REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2DB3F51D3CD8FC0059FE40 /* UIImage+REFrostedViewController.m */; };
-		1F3CFF4F1D2A0A670031972B /* Persion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3CFF4E1D2A0A670031972B /* Persion.m */; };
-		1F48F1A91D2366820008E808 /* Animal.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F1A81D2366820008E808 /* Animal.m */; };
-		1F48F1AC1D2368120008E808 /* Sheep.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F48F1AB1D2368120008E808 /* Sheep.m */; };
+		1F6FECEE1D3F8F3C0059DCA9 /* IMG_0008.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F6FECED1D3F8F3C0059DCA9 /* IMG_0008.jpg */; };
 		1F9A9B8A1C834AC9006E1738 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9B891C834AC9006E1738 /* main.m */; };
 		1F9A9B8D1C834AC9006E1738 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9B8C1C834AC9006E1738 /* AppDelegate.m */; };
 		1F9A9B901C834AC9006E1738 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9B8F1C834AC9006E1738 /* ViewController.m */; };
@@ -20,14 +18,8 @@
 		1F9A9BA31C834AC9006E1738 /* ZFQHUDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9BA21C834AC9006E1738 /* ZFQHUDTests.m */; };
 		1F9A9BAE1C834AC9006E1738 /* ZFQHUDUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9BAD1C834AC9006E1738 /* ZFQHUDUITests.m */; };
 		1F9A9BBD1C834AE9006E1738 /* ZFQHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A9BBC1C834AE9006E1738 /* ZFQHUD.m */; };
-		1FC118771D364732008FD52D /* TestFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC118761D364732008FD52D /* TestFileManager.m */; };
 		1FC118791D3656CB008FD52D /* sss.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FC118781D3656CB008FD52D /* sss.txt */; };
-		1FC1187C1D3691F8008FD52D /* aaa.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FC1187B1D3691F8008FD52D /* aaa.pdf */; };
-		1FC1187E1D3692BC008FD52D /* bbb.docx in Resources */ = {isa = PBXBuildFile; fileRef = 1FC1187D1D3692BC008FD52D /* bbb.docx */; };
-		1FE126CC1D2E034400BB93EC /* ZFQWebViewProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE126CB1D2E034400BB93EC /* ZFQWebViewProtocol.m */; };
-		1FE8C74B1D38E4B20076CB1E /* ZFQTimerProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE8C74A1D38E4B20076CB1E /* ZFQTimerProxy.m */; };
-		1FEA7A441D376D5000E507A4 /* Test1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA7A431D376D5000E507A4 /* Test1ViewController.m */; };
-		1FEA7A4A1D37939200E507A4 /* ZFQDuckType.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA7A491D37939200E507A4 /* ZFQDuckType.m */; };
+		D31F49A041A607863146C121 /* libPods-ZFQHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73C1A36CC178C3713342915C /* libPods-ZFQHUD.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,12 +43,7 @@
 		11D32DC5070106B1CBF2D2A5 /* Pods-ZFQHUD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZFQHUD.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZFQHUD/Pods-ZFQHUD.release.xcconfig"; sourceTree = "<group>"; };
 		1F2DB3F41D3CD8FC0059FE40 /* UIImage+REFrostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+REFrostedViewController.h"; sourceTree = "<group>"; };
 		1F2DB3F51D3CD8FC0059FE40 /* UIImage+REFrostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+REFrostedViewController.m"; sourceTree = "<group>"; };
-		1F3CFF4D1D2A0A670031972B /* Persion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Persion.h; sourceTree = "<group>"; };
-		1F3CFF4E1D2A0A670031972B /* Persion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Persion.m; sourceTree = "<group>"; };
-		1F48F1A71D2366820008E808 /* Animal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animal.h; sourceTree = "<group>"; };
-		1F48F1A81D2366820008E808 /* Animal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Animal.m; sourceTree = "<group>"; };
-		1F48F1AA1D2368120008E808 /* Sheep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sheep.h; sourceTree = "<group>"; };
-		1F48F1AB1D2368120008E808 /* Sheep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sheep.m; sourceTree = "<group>"; };
+		1F6FECED1D3F8F3C0059DCA9 /* IMG_0008.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0008.jpg; sourceTree = "<group>"; };
 		1F9A9B851C834AC9006E1738 /* ZFQHUD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZFQHUD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F9A9B891C834AC9006E1738 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1F9A9B8B1C834AC9006E1738 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,19 +62,7 @@
 		1F9A9BAF1C834AC9006E1738 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F9A9BBB1C834AE9006E1738 /* ZFQHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQHUD.h; sourceTree = "<group>"; };
 		1F9A9BBC1C834AE9006E1738 /* ZFQHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQHUD.m; sourceTree = "<group>"; };
-		1FC118751D364732008FD52D /* TestFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFileManager.h; sourceTree = "<group>"; };
-		1FC118761D364732008FD52D /* TestFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFileManager.m; sourceTree = "<group>"; };
 		1FC118781D3656CB008FD52D /* sss.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sss.txt; sourceTree = "<group>"; };
-		1FC1187B1D3691F8008FD52D /* aaa.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = aaa.pdf; sourceTree = "<group>"; };
-		1FC1187D1D3692BC008FD52D /* bbb.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = bbb.docx; sourceTree = "<group>"; };
-		1FE126CA1D2E034400BB93EC /* ZFQWebViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQWebViewProtocol.h; sourceTree = "<group>"; };
-		1FE126CB1D2E034400BB93EC /* ZFQWebViewProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQWebViewProtocol.m; sourceTree = "<group>"; };
-		1FE8C7491D38E4B20076CB1E /* ZFQTimerProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQTimerProxy.h; sourceTree = "<group>"; };
-		1FE8C74A1D38E4B20076CB1E /* ZFQTimerProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQTimerProxy.m; sourceTree = "<group>"; };
-		1FEA7A421D376D5000E507A4 /* Test1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test1ViewController.h; sourceTree = "<group>"; };
-		1FEA7A431D376D5000E507A4 /* Test1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Test1ViewController.m; sourceTree = "<group>"; };
-		1FEA7A481D37939200E507A4 /* ZFQDuckType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFQDuckType.h; sourceTree = "<group>"; };
-		1FEA7A491D37939200E507A4 /* ZFQDuckType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFQDuckType.m; sourceTree = "<group>"; };
 		34642757237AE2B41DA4AFB8 /* Pods-ZFQHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZFQHUD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZFQHUD/Pods-ZFQHUD.debug.xcconfig"; sourceTree = "<group>"; };
 		73C1A36CC178C3713342915C /* libPods-ZFQHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZFQHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -97,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D31F49A041A607863146C121 /* libPods-ZFQHUD.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,30 +129,13 @@
 				1F9A9B8B1C834AC9006E1738 /* AppDelegate.h */,
 				1F9A9B8C1C834AC9006E1738 /* AppDelegate.m */,
 				1FC118781D3656CB008FD52D /* sss.txt */,
-				1FC1187D1D3692BC008FD52D /* bbb.docx */,
-				1FC1187B1D3691F8008FD52D /* aaa.pdf */,
+				1F6FECED1D3F8F3C0059DCA9 /* IMG_0008.jpg */,
 				1F9A9B8E1C834AC9006E1738 /* ViewController.h */,
 				1F9A9B8F1C834AC9006E1738 /* ViewController.m */,
-				1FEA7A421D376D5000E507A4 /* Test1ViewController.h */,
-				1FEA7A431D376D5000E507A4 /* Test1ViewController.m */,
-				1FE8C7491D38E4B20076CB1E /* ZFQTimerProxy.h */,
-				1FE8C74A1D38E4B20076CB1E /* ZFQTimerProxy.m */,
-				1FC118751D364732008FD52D /* TestFileManager.h */,
-				1FC118761D364732008FD52D /* TestFileManager.m */,
 				1F9A9BBB1C834AE9006E1738 /* ZFQHUD.h */,
 				1F9A9BBC1C834AE9006E1738 /* ZFQHUD.m */,
 				1F2DB3F41D3CD8FC0059FE40 /* UIImage+REFrostedViewController.h */,
 				1F2DB3F51D3CD8FC0059FE40 /* UIImage+REFrostedViewController.m */,
-				1F48F1A71D2366820008E808 /* Animal.h */,
-				1F48F1A81D2366820008E808 /* Animal.m */,
-				1F48F1AA1D2368120008E808 /* Sheep.h */,
-				1F48F1AB1D2368120008E808 /* Sheep.m */,
-				1F3CFF4D1D2A0A670031972B /* Persion.h */,
-				1F3CFF4E1D2A0A670031972B /* Persion.m */,
-				1FEA7A481D37939200E507A4 /* ZFQDuckType.h */,
-				1FEA7A491D37939200E507A4 /* ZFQDuckType.m */,
-				1FE126CA1D2E034400BB93EC /* ZFQWebViewProtocol.h */,
-				1FE126CB1D2E034400BB93EC /* ZFQWebViewProtocol.m */,
 				1F9A9B911C834AC9006E1738 /* Main.storyboard */,
 				1F9A9B941C834AC9006E1738 /* Assets.xcassets */,
 				1F9A9B961C834AC9006E1738 /* LaunchScreen.storyboard */,
@@ -228,9 +187,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F9A9BB21C834AC9006E1738 /* Build configuration list for PBXNativeTarget "ZFQHUD" */;
 			buildPhases = (
+				D3E77D80D5385FB64CCCBDE5 /* [CP] Check Pods Manifest.lock */,
 				1F9A9B811C834AC9006E1738 /* Sources */,
 				1F9A9B821C834AC9006E1738 /* Frameworks */,
 				1F9A9B831C834AC9006E1738 /* Resources */,
+				6D711316F3A31102E4A855E6 /* [CP] Embed Pods Frameworks */,
+				79B0A694B65FBE7DFB52E11D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -325,10 +287,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F9A9B981C834AC9006E1738 /* LaunchScreen.storyboard in Resources */,
+				1F6FECEE1D3F8F3C0059DCA9 /* IMG_0008.jpg in Resources */,
 				1F9A9B951C834AC9006E1738 /* Assets.xcassets in Resources */,
-				1FC1187E1D3692BC008FD52D /* bbb.docx in Resources */,
 				1FC118791D3656CB008FD52D /* sss.txt in Resources */,
-				1FC1187C1D3691F8008FD52D /* aaa.pdf in Resources */,
 				1F9A9B931C834AC9006E1738 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,23 +310,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6D711316F3A31102E4A855E6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFQHUD/Pods-ZFQHUD-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		79B0A694B65FBE7DFB52E11D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ZFQHUD/Pods-ZFQHUD-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3E77D80D5385FB64CCCBDE5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1F9A9B811C834AC9006E1738 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FC118771D364732008FD52D /* TestFileManager.m in Sources */,
 				1F9A9B901C834AC9006E1738 /* ViewController.m in Sources */,
 				1F9A9BBD1C834AE9006E1738 /* ZFQHUD.m in Sources */,
-				1F48F1A91D2366820008E808 /* Animal.m in Sources */,
-				1FEA7A4A1D37939200E507A4 /* ZFQDuckType.m in Sources */,
-				1FE126CC1D2E034400BB93EC /* ZFQWebViewProtocol.m in Sources */,
-				1FE8C74B1D38E4B20076CB1E /* ZFQTimerProxy.m in Sources */,
-				1F48F1AC1D2368120008E808 /* Sheep.m in Sources */,
-				1FEA7A441D376D5000E507A4 /* Test1ViewController.m in Sources */,
 				1F2DB3F61D3CD8FC0059FE40 /* UIImage+REFrostedViewController.m in Sources */,
 				1F9A9B8D1C834AC9006E1738 /* AppDelegate.m in Sources */,
-				1F3CFF4F1D2A0A670031972B /* Persion.m in Sources */,
 				1F9A9B8A1C834AC9006E1738 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,6 +504,7 @@
 		};
 		1F9A9BB31C834AC9006E1738 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34642757237AE2B41DA4AFB8 /* Pods-ZFQHUD.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -527,6 +529,7 @@
 		};
 		1F9A9BB41C834AC9006E1738 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11D32DC5070106B1CBF2D2A5 /* Pods-ZFQHUD.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";

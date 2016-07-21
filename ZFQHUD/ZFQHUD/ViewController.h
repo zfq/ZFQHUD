@@ -10,7 +10,12 @@
 
 @interface ViewController : UIViewController
 
-- (IBAction)myTest:(UIButton *)sender;
+- (IBAction)showOnlyMsg:(UIButton *)sender;
+- (IBAction)showOnlyWaiting:(UIButton *)sender;
+- (IBAction)showWaitingAndShortMsg:(UIButton *)sender;
+- (IBAction)showWaitingAndNormalMsg:(UIButton *)sender;
+- (IBAction)showWaitingAndLongMsg:(UIButton *)sender;
+- (IBAction)showOnlyLongMsg:(UIButton *)sender;
 
 @end
 

@@ -38,7 +38,7 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 {
     self = [super init];
     if (self) {
-        _edgeInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+        _edgeInsets = UIEdgeInsetsMake(8, 8, 0, 8);
         _waitingViewWidth = 40;
         _alertViewMinWidth = zfqHUDConfig.waitingViewWidth + zfqHUDConfig.edgeInsets.left + zfqHUDConfig.edgeInsets.right;
         _alertViewCornerRadius = 4;
@@ -122,11 +122,11 @@ static ZFQHUD *zfqHUD = nil;
     return self;
 }
 
-+ (void)setHUDType:(ZFQHUDType)hudType
++ (void)setHUDMaskType:(ZFQHUDMaskType)hudMaskType
 {
-    [self sharedView].hudType = hudType;
+    [self sharedView].hudMaskType = hudMaskType;
     
-    switch (hudType) {
+    switch (hudMaskType) {
         case ZFQHUDClear: {
             [self sharedView].backgroundColor = [UIColor clearColor];
             break;
@@ -152,8 +152,10 @@ static ZFQHUD *zfqHUD = nil;
     UITouch *touch = [touches anyObject];
     if (touch.view == self ) {
         if (self.tapClearDismiss) {
-            dispatch_source_cancel(self.timeSource);
-            [self dissmissWithAnimation:YES];
+            if (self.timeSource) {
+                dispatch_source_cancel(self.timeSource);
+            }
+            [self dismissWithAnimation:YES];
         }
     }
 }
@@ -180,20 +182,19 @@ static ZFQHUD *zfqHUD = nil;
     return [smallImg re_applyBlurWithRadius:radius tintColor:tintColor saturationDeltaFactor:saturationFactor maskImage:nil];
 }
 
-- (void)showWithMsg:(NSString *)alertMsg duration:(NSTimeInterval)interval completionBlk:(void (^)(void))blk
+- (void)showWithType:(ZFQHUDType)hudType msg:(nullable NSString *)alertMsg duration:(NSTimeInterval)interval completionBlk:(nullable void (^)(void))blk
 {
-    ZFQHUD *hud = self;
     ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];
     
-    if (hud.hudType == ZFQHUDBlur) {
+    if (self.hudMaskType == ZFQHUDBlur) {
         //1.截图
         UIImage *simg = [[self class] snapShotImg];
-        UIImage *img = [hud applyBlurToImage:simg];
+        UIImage *img = [self applyBlurToImage:simg];
         //2.填充内容
-        hud.layer.contents = (__bridge id)img.CGImage;
+        self.layer.contents = (__bridge id)img.CGImage;
     }
     
-    if (hud.superview == nil) {
+    if (self.superview == nil) {
         NSArray *windows = [UIApplication sharedApplication].windows;
         for (UIWindow *window in windows) {
             BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
@@ -201,19 +202,19 @@ static ZFQHUD *zfqHUD = nil;
             BOOL windowLevelNormal = window.windowLevel == UIWindowLevelNormal;
             
             if(windowOnMainScreen && windowIsVisible && windowLevelNormal){
-                [window addSubview:hud];
+                [window addSubview:self];
                 break;
             }
         }
     }
     
     //添加hudView
-    UIView *hudView = [hud hudView];
+    UIView *hudView = [self hudView];
     hudView.layer.cornerRadius = config.alertViewCornerRadius;
     hudView.backgroundColor = config.alertViewBcgColor;
 
     if (!hudView.superview) {
-        [hud addSubview:hudView];
+        [self addSubview:hudView];
     }
     CGFloat height = 0;
     CGFloat width = config.alertViewMinWidth;
@@ -222,11 +223,16 @@ static ZFQHUD *zfqHUD = nil;
     //1.只有文字
     //2.只有等待视图和文字(如果文字的长度为0，相当于只有等待视图)
     //3.只有自定义图片和文字(如果文字的长度为0，相当于只有等待视图)
-    //添加约束
     
     UIImage *img = config.alertImg;
     if (!img) {
-        [hud showWithMsg:alertMsg hideWaiting:YES onView:hudView width:&width height:&height];
+        BOOL hideWaiting = NO;
+        if (hudType == ZFQHUDTypeAlert) {
+            hideWaiting = YES;
+        } else if (hudType == ZFQHUDTypeActivity) {
+            hideWaiting = NO;
+        }
+        [self showWithMsg:alertMsg hideWaiting:hideWaiting onView:hudView width:&width height:&height];
     } else {
         if (alertMsg.length == 0) {
             //只显示自定义视图
@@ -236,12 +242,12 @@ static ZFQHUD *zfqHUD = nil;
     }
         
     //设置hudView的frame
-    hudView.frame = CGRectMake(hud.center.x-width/2, hud.center.y-height/2, width, height);
+    hudView.frame = CGRectMake(self.center.x-width/2, self.center.y-height/2, width, height);
     
-    if (hud.hudType == ZFQHUDAlertViewBlur) {
+    if (self.hudMaskType == ZFQHUDAlertViewBlur) {
         hudView.layer.masksToBounds = YES;
         UIImage *simg = [[self class] snapShotImg];
-        UIImage *img = [hud applyBlurToImage:simg area:hudView.frame];
+        UIImage *img = [self applyBlurToImage:simg area:hudView.frame];
         hudView.layer.contents = (__bridge id)img.CGImage;
     }
     
@@ -260,7 +266,7 @@ static ZFQHUD *zfqHUD = nil;
         dispatch_source_set_timer(_timeSource, time, (int64_t)(1 * NSEC_PER_SEC), 0);
         dispatch_source_set_event_handler(_timeSource, ^{
             dispatch_source_cancel(weakSelf.timeSource);
-            [weakSelf dissmissWithAnimation:YES];
+            [weakSelf dismissWithAnimation:YES];
             if (blk) {
                 blk();
             }
@@ -285,6 +291,9 @@ static ZFQHUD *zfqHUD = nil;
             [view.layer addSublayer:layer];
             [layer addAnimation:self.animations forKey:@"aaa"];
         }
+    } else {
+        [_waitingLayer removeAllAnimations];
+        [_waitingLayer removeFromSuperlayer];
     }
     
     //2.添加msgLabel
@@ -318,21 +327,17 @@ static ZFQHUD *zfqHUD = nil;
                 x = (viewWidth - actualSize.width)/2;
             }
         }
-        /*
-        if (actualSize.width > layerSize.width) {
-            viewWidth = actualSize.width + hudConfig.edgeInsets.left + hudConfig.edgeInsets.right;
-            x = hudConfig.edgeInsets.left;
-        } else {
-            x = (viewWidth - actualSize.width)/2;
-        }*/
         
         CGFloat y = 0;
         if (layer) {
-            y = layer.position.y + layer.bounds.size.height/2 + padding;
+            y = layer.position.y + layer.bounds.size.height/2 + hudConfig.edgeInsets.bottom;
         } else {
             y = hudConfig.edgeInsets.top;
         }
         label.frame = CGRectMake(x, y, actualSize.width, actualSize.height);
+    } else {
+        _msgLabel.text = nil;
+        [_msgLabel removeFromSuperview];
     }
     
     //调整hudView的宽度
@@ -361,7 +366,7 @@ static ZFQHUD *zfqHUD = nil;
                     [scrollView addSubview:msgLabel];
                 }
                 scrollView.contentSize = msgLabel.bounds.size;
-                scrollView.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, *height - hudConfig.edgeInsets.bottom - hudConfig.edgeInsets.top - layer.bounds.size.height - padding);
+                scrollView.frame = CGRectMake(msgLabel.frame.origin.x, msgLabel.frame.origin.y, msgLabel.frame.size.width, *height - hudConfig.edgeInsets.bottom - hudConfig.edgeInsets.top - layer.bounds.size.height-hudConfig.edgeInsets.bottom);
                 msgLabel.frame = CGRectMake(0, 0, msgLabel.bounds.size.width, msgLabel.bounds.size.height);
                 
                 //将scrollView添加view上
@@ -369,11 +374,17 @@ static ZFQHUD *zfqHUD = nil;
                     [view addSubview:scrollView];
                 }
             } else {
-                *height = CGRectGetMaxY(msgLabel.frame) + padding;
+                [_msgScrollView removeFromSuperview];
+                if (msgLabel.superview != view) {
+                    [msgLabel removeFromSuperview];
+                    [view addSubview:msgLabel];
+                }
+                *height = CGRectGetMaxY(msgLabel.frame) + hudConfig.edgeInsets.bottom;
             }
         } else {
+            
             if (layer) {
-                *height = layer.position.y + layer.bounds.size.height/2 + padding;
+                *height = layer.position.y + layer.bounds.size.height/2 + hudConfig.edgeInsets.bottom;
             } else {
                 *height = hudConfig.edgeInsets.top + hudConfig.edgeInsets.bottom;
             }
@@ -397,15 +408,20 @@ static ZFQHUD *zfqHUD = nil;
 
 - (void)showWithMsg:(nullable NSString *)alertMsg
 {
-    [self showWithMsg:alertMsg duration:3 completionBlk:nil];
+    [self showWithMsg:alertMsg duration:0 completionBlk:nil];
 }
 
-- (void)dissmiss
+- (void)showWithMsg:(nullable NSString *)msg duration:(NSTimeInterval)interval completionBlk:(nullable void (^)(void))blk
 {
-    [self dissmissWithAnimation:NO];
+    [self showWithType:ZFQHUDTypeAlert msg:msg duration:interval completionBlk:blk];
 }
 
-- (void)dissmissWithAnimation:(BOOL)animation
+- (void)dismiss
+{
+    [self dismissWithAnimation:NO];
+}
+
+- (void)dismissWithAnimation:(BOOL)animation
 {
     if (!self.superview) {
         return;
