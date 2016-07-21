@@ -33,13 +33,10 @@
     //设置hud
     [ZFQHUD setHUDMaskType:ZFQHUDAlertViewBlur];
     [ZFQHUD setTapClearDismiss:YES];
-    ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];// [[ZFQHUDConfig alloc] init];
+    ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];
     config.alertViewTintColor = [UIColor orangeColor];
     config.alertViewBcgColor = [UIColor grayColor];
     config.alertViewMinWidth = 100;
-//    config.alertViewBorderColor = [UIColor redColor];
-//    config.alertViewBorderWidth = 1;
-//    config.alertViewCornerRadius = 5;
 }
 
 - (IBAction)showOnlyMsg:(UIButton *)sender
