@@ -8,6 +8,6 @@ Pod::Spec.new do |s|
 	s.source = { :git => "https://github.com/zfq/ZFQHUD.git" }				
 	s.ios.deployment_target = '7.0'
 	s.requires_arc = true
-	s.source_files = 'Class/*.{h,m}'
+	s.source_files = 'ZFQHUD/Class/*.{h,m}'
 	
 end
