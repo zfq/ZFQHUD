@@ -16,6 +16,7 @@
 - (IBAction)showWaitingAndNormalMsg:(UIButton *)sender;
 - (IBAction)showWaitingAndLongMsg:(UIButton *)sender;
 - (IBAction)showOnlyLongMsg:(UIButton *)sender;
+- (IBAction)showAutoDismissMsg:(UIButton *)sender;
 
 @end
 

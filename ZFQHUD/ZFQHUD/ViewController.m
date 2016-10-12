@@ -81,4 +81,13 @@
         NSLog(@"完成 showOnlyLongMsg");
     }];
 }
+
+- (IBAction)showAutoDismissMsg:(UIButton *)sender
+{
+//    [ZFQHUD setTapClearDismiss:NO];
+    [[ZFQHUD sharedView] showWithMsg:@"这是提示语😁" duration:2 completionBlk:^{
+        NSLog(@"弹窗已关闭");
+    }];
+}
+
 @end
