@@ -69,6 +69,7 @@ typedef void(^ZFQHUDPopupBlock)(ZFQHUD * _Nonnull hud);
 
 typedef NS_ENUM(NSInteger,ZFQHUDMaskType){
     ZFQHUDClear,
+    ZFQHUDClearAllowInteractionExceptHUD,   //弹窗内不响应交互，弹窗外允许交互
     ZFQHUDBlur,         //模糊背景
     ZFQHUDAlertViewBlur //仅仅提示框背景模糊
 };

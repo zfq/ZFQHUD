@@ -31,7 +31,7 @@
     [super viewDidLoad];
    
     //设置hud
-    [ZFQHUD setHUDMaskType:ZFQHUDAlertViewBlur];
+    [ZFQHUD setHUDMaskType:ZFQHUDClear];
     [ZFQHUD setTapClearDismiss:YES];
     ZFQHUDConfig *config = [ZFQHUDConfig globalConfig];
     config.alertViewTintColor = [UIColor orangeColor];

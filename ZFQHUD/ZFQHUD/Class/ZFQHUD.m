@@ -161,6 +161,33 @@ static ZFQHUD *zfqHUD = nil;
     }
 }
 
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    if (self.hudMaskType == ZFQHUDClearAllowInteractionExceptHUD) {
+        UIView *v = [self hudView];
+        BOOL b1 = CGRectContainsPoint(v.frame, point);
+        BOOL b2 = CGRectContainsPoint(self.frame, point);
+        
+        if (b2 == YES) {
+            if (b1 == YES) {
+                return v;
+            } else {
+                UIWindow *window = (UIWindow *)[self superview];
+                UIViewController *vc = window.rootViewController;
+                if ([vc isKindOfClass:[UINavigationController class]]) {
+                    UINavigationController *naVC = (UINavigationController *)vc;
+                    //让controller的view上的子视图来处理事件
+                    return [naVC.topViewController.view hitTest:point withEvent:event];
+                } else {
+                    return vc.view;
+                }
+            }
+        }
+    }
+    
+    return [super hitTest:point withEvent:event];
+}
+
 - (UIImage *)applyBlurToImage:(UIImage *)image
 {
     CGFloat radius = 5;
@@ -193,6 +220,8 @@ static ZFQHUD *zfqHUD = nil;
         UIImage *img = [self applyBlurToImage:simg];
         //2.填充内容
         self.layer.contents = (__bridge id)img.CGImage;
+    } else if (self.hudMaskType == ZFQHUDClear) {
+        
     }
     
     if (self.superview == nil) {
