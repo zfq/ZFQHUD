@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-
 @interface ZFQHUDConfig : NSObject
 
 /**
@@ -56,7 +55,6 @@
  *  弹出框的提示小图，比如X 对勾 叹号等一类的小图片
  */
 @property (nonatomic,strong,nullable) UIImage *alertImg;
-
 
 + (nonnull ZFQHUDConfig *)globalConfig;
 

@@ -12,10 +12,11 @@
 @implementation ZFQHUDConfig
 
 static ZFQHUDConfig *zfqHUDConfig = nil;
+static dispatch_once_t zfqHUDOnceToken;
+
 + (ZFQHUDConfig *)globalConfig
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&zfqHUDOnceToken, ^{
         if (!zfqHUDConfig) {
             zfqHUDConfig = [[ZFQHUDConfig alloc] init];
         }
@@ -25,8 +26,7 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&zfqHUDOnceToken, ^{
         if (!zfqHUDConfig) {
             zfqHUDConfig = [super allocWithZone:zone];
         }
@@ -70,7 +70,6 @@ static ZFQHUDConfig *zfqHUDConfig = nil;
 @property (nonatomic,assign) BOOL isHideAnimating;
 @property (nonatomic,assign,readwrite) BOOL isVisible;    //是否可见
 @property (nonatomic,strong) dispatch_source_t timeSource;
-
 @end
 
 @implementation ZFQHUD
@@ -251,6 +250,7 @@ static ZFQHUD *zfqHUD = nil;
     CGFloat height = 0;
     CGFloat width = config.alertViewMinWidth;
     hudView.bounds = CGRectMake(0, 0, width, width);
+    
     //分三种情况
     //1.只有文字
     //2.只有等待视图和文字(如果文字的长度为0，相当于只有等待视图)
@@ -604,4 +604,5 @@ static ZFQHUD *zfqHUD = nil;
     }
     return _msgScrollView;
 }
+
 @end
